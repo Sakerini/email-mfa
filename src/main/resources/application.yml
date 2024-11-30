@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: EmailMFA
+  mail:
+    host: ${SPRING_MAIL_HOST:localhost}
+    port: ${SPRING_MAIL_PORT:8085}
+    protocol: smtp
+    properties.mail.smtp:
+      auth: false
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+      timeout: 6000
+
+OTP:
+  secret: HgaaZL2WF2tgTKRF6s7CUYipUysQPn20

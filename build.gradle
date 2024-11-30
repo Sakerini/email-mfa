@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.home'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply from: "${project.projectDir}/libraries.gradle"
+
+dependencies {
+    implementation libpacks.springBase
+    implementation libpacks.tools
+    implementation libpacks.database
+    implementation libpacks.swagger
+    compileOnly libpacks.compileOnly
+    annotationProcessor libpacks.annotationProcessor
+    testImplementation libpacks.test.implementation
+    testRuntimeOnly libpacks.test.runtimeOnly
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

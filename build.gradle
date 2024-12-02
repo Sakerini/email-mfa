@@ -43,8 +43,8 @@ publishing {
             name = "Github"
             url = uri("https://maven.pkg.github.com/Sakerini/email-mfa")
             credentials {
-                username = findProperty("github.username")
-                password = findProperty("github.token")
+                username = project.findProperty("github.actor") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("github.token") ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }

@@ -29,6 +29,8 @@ Or
 ./gradlew build
 ```
 
+If you don't have gradle installed on your machine, you can use pre-build jar.
+
 After build use docker-compose.yml file to deploy containers to Docker
 
 ```sh

@@ -9,7 +9,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.home.email.model.domain.MFAEmail;
 import com.home.email.model.domain.OTPContext;
 import com.home.email.model.exception.EmailSendingException;
 import com.home.email.model.exception.OTPStoringException;
@@ -27,57 +26,48 @@ public class MFAServiceTest {
   private final String TEST_EMAIL = "test@example.com";
   private final String TEST_CODE = "555111";
 
-  @Mock
-  private EmailService emailService;
-  @Mock
-  private OTPService otpService;
-  @InjectMocks
-  private MFAService mfaService;
+  @Mock private EmailService emailService;
+  @Mock private OTPService otpService;
+  @InjectMocks private MFAService mfaService;
 
   private OTPContext constructOtpContext() {
     return new OTPContext(TEST_EMAIL, TEST_CODE);
   }
 
-  private MFAEmail constructMFAEmail() {
-    return new MFAEmail(TEST_EMAIL, "MFA", constructOtpContext().getCode());
-  }
-
   @Test
   void emailCode_shouldBeOk() throws OTPStoringException, EmailSendingException {
-    //Arrange
+    // Arrange
     doReturn(constructOtpContext()).when(otpService).generateOTP(anyString());
     doNothing().when(emailService).sendEmail(any());
-    //Act
+    // Act
     mfaService.emailCode(TEST_EMAIL);
-    //Assert
+    // Assert
     verify(otpService, times(1)).generateOTP(anyString());
     verify(emailService, times(1)).sendEmail(any());
   }
 
   @Test
-  void verifyEmailedCode_shouldBeOk()
-      throws OTPVerificationException {
-    //Arrange
+  void verifyEmailedCode_shouldBeOk() throws OTPVerificationException {
+    // Arrange
     doReturn(true).when(otpService).verifyOTP(any());
-    //Act
+    // Act
     mfaService.verifyEmailedCode(TEST_EMAIL, TEST_CODE);
-    //Assert
+    // Assert
     verify(otpService, times(1)).verifyOTP(any());
   }
 
   @Test
-  void verifyEmailedCode_shouldBeInvalidCode()
-      throws OTPVerificationException {
-    //Arrange
+  void verifyEmailedCode_shouldBeInvalidCode() throws OTPVerificationException {
+    // Arrange
     doReturn(false).when(otpService).verifyOTP(any());
-    //Act
-    OTPVerificationException exception = assertThrows(OTPVerificationException.class,
-        () -> mfaService.verifyEmailedCode(TEST_EMAIL, TEST_CODE));
+    // Act
+    final OTPVerificationException exception =
+        assertThrows(
+            OTPVerificationException.class,
+            () -> mfaService.verifyEmailedCode(TEST_EMAIL, TEST_CODE));
 
-    //Assert
+    // Assert
     assertEquals("Access denied: Invalid code", exception.getMessage());
     assertEquals(HttpStatus.UNAUTHORIZED, exception.getCode());
-
   }
-
 }

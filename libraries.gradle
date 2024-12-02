@@ -1,23 +1,26 @@
 ext {
     libpacks = [
-            springBase: [
+            springBase         : [
                     'org.springframework.boot:spring-boot-starter',
                     'org.springframework.boot:spring-boot-starter-web',
                     'org.springframework.boot:spring-boot-starter-validation',
-                    'org.springframework.boot:spring-boot-starter-logging'
+                    'org.springframework.boot:spring-boot-starter-logging',
+                    'org.springframework.retry:spring-retry',
+                    'org.springframework:spring-aspects:6.2.0'
             ],
-            tools: [
+            tools              : [
                     'org.springframework.boot:spring-boot-starter-mail',
+                    'commons-validator:commons-validator:1.9.0',
                     'com.github.bastiaanjansen:otp-java:2.0.3'
             ],
-            swagger: [
+            swagger            : [
                     'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0',
                     'org.springdoc:springdoc-openapi-starter-webmvc-api:2.7.0'
             ],
-            database: [
+            database           : [
                     'org.springframework.boot:spring-boot-starter-data-redis'
             ],
-            compileOnly: [
+            compileOnly        : [
                     'org.projectlombok:lombok'
             ],
 
@@ -25,11 +28,11 @@ ext {
                     'org.projectlombok:lombok'
             ],
 
-            test: [
+            test               : [
                     implementation: [
                             'org.springframework.boot:spring-boot-starter-test',
                     ],
-                    runtimeOnly: [
+                    runtimeOnly   : [
                             'org.junit.platform:junit-platform-launcher',
                     ]
             ]

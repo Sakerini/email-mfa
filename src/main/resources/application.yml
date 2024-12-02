@@ -14,4 +14,6 @@ spring:
       timeout: 6000
 
 OTP:
-  secret: HgaaZL2WF2tgTKRF6s7CUYipUysQPn20
+  secret: ${OTP_SECRET:HgaaZL2WF2tgTKRF6s7CUYipUysQPn20}
+  digits: 6
+  durationInSeconds: 300

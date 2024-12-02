@@ -18,17 +18,18 @@ public class MFAService {
   private final OTPService otpService;
   private final EmailService emailService;
 
-  public void emailCode(String email) throws OTPStoringException, EmailSendingException {
-    OTPContext otp = otpService.generateOTP(email);
-    emailService.sendEmail(new MFAEmail(email, EMAIL_SUBJECT, String.format(EMAIL_MSG, otp.getCode())));
+  public void emailCode(final String email) throws OTPStoringException, EmailSendingException {
+    final OTPContext otp = otpService.generateOTP(email);
+    emailService.sendEmail(
+        new MFAEmail(email, EMAIL_SUBJECT, String.format(EMAIL_MSG, otp.code())));
   }
 
-  public void verifyEmailedCode(String email, String code) throws OTPVerificationException {
-    boolean isVerified = otpService.verifyOTP(new OTPContext(email, code));
+  public void verifyEmailedCode(final String email, final String code)
+      throws OTPVerificationException {
+    final boolean isVerified = otpService.verifyOTP(new OTPContext(email, code));
 
     if (!isVerified) {
       throw new OTPVerificationException(HttpStatus.UNAUTHORIZED, "Access denied: Invalid code");
     }
   }
-
 }

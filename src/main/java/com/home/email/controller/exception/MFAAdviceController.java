@@ -10,78 +10,73 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @ControllerAdvice
 public class MFAAdviceController {
 
-  @ExceptionHandler({EmailSendingException.class, OTPStoringException.class, OTPVerificationException.class, MethodArgumentNotValidException.class})
-  public final ResponseEntity<ApiErrorResponse> handleException(Exception ex) {
-    HttpHeaders headers = new HttpHeaders();
+  @ExceptionHandler({
+    EmailSendingException.class,
+    OTPStoringException.class,
+    OTPVerificationException.class,
+    MethodArgumentNotValidException.class
+  })
+  @ResponseBody
+  public final ResponseEntity<ApiErrorResponse> handleException(final Exception ex) {
+    final HttpHeaders headers = new HttpHeaders();
 
-    if (ex instanceof EmailSendingException) {
+    if (ex instanceof final EmailSendingException ese) {
 
-      HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-      EmailSendingException emailSendingException = (EmailSendingException) ex;
-      return handleEmailSendingException(emailSendingException, headers, status);
+      final HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+      return handleEmailSendingException(ese, headers, status);
 
-    } else if (ex instanceof OTPStoringException) {
+    } else if (ex instanceof final OTPStoringException ose) {
 
-      HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-      OTPStoringException otpStoringException = (OTPStoringException) ex;
-      return handleOTPStoringException(otpStoringException, headers, status);
+      final HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+      return handleOTPStoringException(ose, headers, status);
 
-    } else if (ex instanceof OTPVerificationException) {
+    } else if (ex instanceof final OTPVerificationException ove) {
 
-      OTPVerificationException otpVerificationException = (OTPVerificationException) ex;
-      HttpStatus status = otpVerificationException.getCode();
-      return handleOTPVerificationException(otpVerificationException, headers, status);
+      final HttpStatus status = ove.getCode();
+      return handleOTPVerificationException(ove, headers, status);
 
-    } else if(ex instanceof MethodArgumentNotValidException) {
+    } else if (ex instanceof final MethodArgumentNotValidException mve) {
 
-      return handleException(ex, headers, HttpStatus.BAD_REQUEST);
+      return handleException(mve, headers, HttpStatus.BAD_REQUEST);
 
     } else {
 
-      return handleException(ex,  headers, HttpStatus.INTERNAL_SERVER_ERROR);
-
+      return handleException(ex, headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   private ResponseEntity<ApiErrorResponse> handleEmailSendingException(
-      EmailSendingException exception,
-      HttpHeaders headers,
-      HttpStatus status) {
+      final EmailSendingException exception, final HttpHeaders headers, final HttpStatus status) {
 
-    return new ResponseEntity<>(createApiErrorResponse(exception, status), headers, status);
+    return new ResponseEntity<>(createApiErrorResponse(exception), headers, status);
   }
 
   private ResponseEntity<ApiErrorResponse> handleOTPStoringException(
-      OTPStoringException exception,
-      HttpHeaders headers,
-      HttpStatus status) {
+      final OTPStoringException exception, final HttpHeaders headers, final HttpStatus status) {
 
-    return new ResponseEntity<>(createApiErrorResponse(exception, status), headers, status);
+    return new ResponseEntity<>(createApiErrorResponse(exception), headers, status);
   }
 
   private ResponseEntity<ApiErrorResponse> handleOTPVerificationException(
-      OTPVerificationException exception,
-      HttpHeaders headers,
-      HttpStatus status) {
+      final OTPVerificationException exception,
+      final HttpHeaders headers,
+      final HttpStatus status) {
 
-    return new ResponseEntity<>(createApiErrorResponse(exception, status), headers, status);
+    return new ResponseEntity<>(createApiErrorResponse(exception), headers, status);
   }
 
   private ResponseEntity<ApiErrorResponse> handleException(
-      Exception exception,
-      HttpHeaders headers,
-      HttpStatus status) {
+      final Exception exception, final HttpHeaders headers, final HttpStatus status) {
 
-    return new ResponseEntity<>(createApiErrorResponse(exception, status), headers, status);
+    return new ResponseEntity<>(createApiErrorResponse(exception), headers, status);
   }
 
-
-  private ApiErrorResponse createApiErrorResponse(Exception exception, HttpStatus status) {
-    return new ApiErrorResponse(status,
-        exception.getMessage());
+  private ApiErrorResponse createApiErrorResponse(final Exception exception) {
+    return new ApiErrorResponse(exception.getMessage());
   }
 }

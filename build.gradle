@@ -43,7 +43,7 @@ publishing {
             url = uri("https://maven.pkg.github.com/${project.findProperty('github.repository_owner') ?: System.getenv('GITHUB_REPOSITORY_OWNER')}/${project.findProperty('github.repository') ?: System.getenv('GITHUB_REPOSITORY')}")
             credentials {
                 username = project.findProperty("github.actor") ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("github.token") ?: System.getenv("GITHUB_TOKEN")
+                password = project.findProperty("github.token") ?: System.getenv("GH_TOKEN")
             }
         }
     }
@@ -51,7 +51,7 @@ publishing {
         register("jar", MavenPublication) {
             from(components["java"])
             pom {
-                url.set("https://github.com/${project.findProperty('github.repository_owner') ?: System.getenv('GITHUB_REPOSITORY_OWNER')}/${project.findProperty('github.repository') ?: System.getenv('GITHUB_REPOSITORY')}.git")
+                url.set("https://github.com/${System.getenv('GITHUB_REPOSITORY_OWNER')}/${System.getenv('GITHUB_REPOSITORY')}.git")
             }
         }
     }

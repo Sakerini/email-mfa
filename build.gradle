@@ -47,6 +47,15 @@ publishing {
             }
         }
     }
+
+    publications {
+        gpr(MavenPublication) {
+            from components.java
+            groupId = project.group
+            artifactId = project.name
+            version = project.version
+        }
+    }
 }
 
 tasks.named('test') {

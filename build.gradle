@@ -50,11 +50,11 @@ publishing {
     }
 
     publications {
-        gpr(MavenPublication) {
-            from components.java
-            groupId = project.group
-            artifactId = project.name
-            version = project.version
+        register("jar", MavenPublication) {
+            from(components["java"])
+            pom {
+                url.set("https://github.com/${System.getenv('GITHUB_REPOSITORY_OWNER')}/${System.getenv('GITHUB_REPOSITORY')}.git")
+            }
         }
     }
 }

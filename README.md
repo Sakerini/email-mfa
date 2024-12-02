@@ -30,8 +30,9 @@ Or
 ```
 
 If you don't have gradle installed on your machine, you can use pre-build jar.
-You can download the JAR file from the following link:
-[Download email JAR](https://github-registry-files.githubusercontent.com/896576988/480bd680-b0d6-11ef-96b9-29c836503b9c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241202T150028Z&X-Amz-Expires=300&X-Amz-Signature=d07d6bf004bd634b891c95b0ac9b17865acfa7affbeb0dc22901f396ebc12283&X-Amz-SignedHeaders=host&response-content-disposition=filename%3Demail-0.0.1-20241202.145256-1-plain.jar&response-content-type=application%2Foctet-stream)
+You can download the JAR file from the here:
+[Download email JAR](https://github.com/Sakerini/email-mfa/packages/2332145)
+At the assets block
 
 After build use docker-compose.yml file to deploy containers to Docker
 

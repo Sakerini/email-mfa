@@ -40,10 +40,10 @@ dependencies {
 publishing {
     repositories {
         maven {
-            url = uri("https://maven.pkg.github.com/${project.findProperty('github.repository_owner') ?: System.getenv('GITHUB_REPOSITORY_OWNER')}/${project.findProperty('github.repository') ?: System.getenv('GITHUB_REPOSITORY')}")
+            url = uri("https://maven.pkg.github.com/${System.getenv('GITHUB_REPOSITORY_OWNER')}/${System.getenv('GITHUB_REPOSITORY')}")
             credentials {
-                username = project.findProperty("github.actor") ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("github.token") ?: System.getenv("GH_TOKEN")
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GH_TOKEN")
             }
         }
     }
